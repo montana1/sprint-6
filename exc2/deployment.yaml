@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test-app-deployment
-  labels:
-    app: test-app
+  name: autoscaling
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: test-app
+      app: autoscaling
   template:
     metadata:
       labels:
-        app: test-app
+        app: autoscaling
     spec:
       containers:
-      - name: test-app
-        image: simpweb:simpweb
-        command: ["/bin/sh", "-c", "while true; do sleep 3600; done"] # Простой процесс, чтобы под держался
+      - name: autoscaling
+        image: testapp/webapp
+        imagePullPolicy: IfNotPresent
         resources:
           requests:
-            memory: "20Mi"  # Запрос памяти
+            memory: "10Mi"  # Запрос памяти
           limits:
             memory: "30Mi"  # Лимит памяти
+        ports:
+          - containerPort: 3000
